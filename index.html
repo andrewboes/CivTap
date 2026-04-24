@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civ Tapper</title>
+</head>
+<body onload="bodyLoaded()">
+
+    <h1>Civ Tapper</h1>
+
+    <table>
+        <tr>
+            <td><button onclick="incrementResource('foodCount', 1, 1)">Gather Food</button></td>
+            <td><p>Food: <span id="foodCount">0</span></p></td>
+        </tr>
+        <tr>
+            <td><button onclick="incrementResource('timberCount', 1, 1)">Gather Timber</button></td>
+            <td><p>Timber: <span id="timberCount">0</span></p></td>
+        </tr>
+        <tr>
+            <td><button onclick="incrementResource('stoneCount', 1, 1)">Gather Stone</button></td>
+            <td><p>Stone: <span id="stoneCount">0</span></p></td>
+        </tr>
+        <tr>
+            <td><button onclick= "addHouse()">Add House</button> </td>
+            <td><p>Housing: <span id="housing">0</span></p></td>
+            <td><span id="housingErrorMessage"></span></td>
+        </tr>
+    </tr>
+
+    </table>
+    
+    <script>
+        let numFarmers = 0;
+        let numLumberjacks = 0;
+        let numStoneMasons = 0;
+        let resources = { foodCount: 0, timberCount: 0, stoneCount: 0 };
+        let housing = 0;
+        let housePrice = 20;
+
+        function incrementResource(resourceName, multiplier, amount) {
+            resources[resourceName] += amount * multiplier;            
+            document.getElementById(resourceName).innerText = resources[resourceName];
+        }
+
+        function bodyLoaded(){
+            setInterval(()=>{
+                incrementResource('foodCount', numFarmers, 1);
+                incrementResource('timberCount', numStoneMasons, 1);
+            },1000);
+        }
+
+        function addHouse(){
+            if (resources["timberCount"] < housePrice){
+                document.getElementById("housingErrorMessage").innerText = "Nope";
+            } else{
+                document.getElementById("housingErrorMessage").innerText = "";
+                resources["timberCount"] -= housePrice;
+                document.getElementById("timberCount").innerText = resources[timberCount];
+                housing+=1;
+                updateText("housing", housing);
+                //document.getElementById("housing").innerText = housing;
+            }            
+        }
+
+        function updateText(elementId, text){
+            document.getElementById(elementId).innerText = text;
+        }
+
+    </script>
+
+</body>
+</html>
